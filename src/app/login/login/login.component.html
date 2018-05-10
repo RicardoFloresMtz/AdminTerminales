@@ -1,0 +1,61 @@
+<form [formGroup]="myForm" novalidate>
+  <fieldset class="fielsetLogin container" style="padding-left: 12% !important;padding-right: 12% !important">
+    <div style="background-color: white">
+          <div class="row letranegrita padding-InFieldset">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding-top: 5%">
+                <h3 class="text-center  color-letra">Modulo de Administaci&oacute;n de Terminales (PC AIO)</h3>
+            </div>
+          </div>
+          <div class="row  letranegrita padding-InFieldset" align="right">
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" >
+                  <label>Perfil</label>
+              </div>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" align="left">
+                  <select class="form-control selectModificado"   #rPerfil (change)="setValuePerfil();">
+                    <option value="0"  disabled selected>Seleccione un perfil...</option>
+                    <option value="1"  >Seguridad</option>
+                    <option value="2"  >Ejecutivo de Cuenta</option>
+                  </select>
+                </div>
+          </div>
+          <div class="row  letranegrita padding-InFieldset" align="right">
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <label>Usuario</label>
+              </div>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" align="left">
+                  <input type="text" class="form-control" #rNombreUsuario formControlName="fcNombreUsuario">
+                  <div *ngIf="myForm.get('fcNombreUsuario').errors && myForm.get('fcNombreUsuario').dirty" >
+                        <p *ngIf="myForm.get('fcNombreUsuario').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
+                  </div>
+                </div>
+          </div>
+          <div class="row  letranegrita padding-InFieldset" align="right">
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <label>Password</label>
+              </div>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" align="left">
+                  <input type="password" class="form-control" #rPass formControlName="fcPass">
+                  <div *ngIf="myForm.get('fcPass').errors && myForm.get('fcPass').dirty" >
+                        <p *ngIf="myForm.get('fcPass').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
+                  </div>
+                </div>
+          </div>
+          <div class="row  letranegrita " >
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <hr>
+              </div>
+          </div>
+          <div class="row padding-InFieldset" >
+              <div class="col-xs-4 col-sm-4 col-md-7 col-lg-7"></div>
+              <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2" align="right">
+                 
+              </div>
+              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" align="center">
+                  <button type="button" class="btn btn-danger " [disabled]="((Perfil === '0') || (myForm.invalid))"  (click)="LogIn(rNombreUsuario.value,rPass.value )">
+                        LOG IN
+                  </button>
+              </div>
+           </div>
+        </div>
+    </fieldset>
+</form>

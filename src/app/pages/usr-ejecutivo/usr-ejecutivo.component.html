@@ -1,0 +1,146 @@
+<form [formGroup]="myForm" novalidate>
+    <div class="contenedor-tabla">
+        <table id="tableBeneficiary" class="table table-fixed">
+                <thead >
+                            <tr >
+                              <th class="col-md-1 style-th" style="text-align: center">ID BDD</th>
+                              <th class="col-md-2 style-th" style="text-align: center">Usuario Ofuscado</th>
+                              <th class="col-md-2 style-th" style="text-align: center">Password Ofuscado</th>
+                              <th class="col-md-2 style-th" style="text-align: center">ID de Terminal</th>
+                              <th class="col-md-1 style-th" style="text-align: center"> CR</th>
+                              <th class="col-md-2 style-th" style="text-align: center">Estado de Terminal</th>
+                              <th class="col-md-2 style-th" style="text-align: center">Modificar</th>
+                            </tr>
+                </thead>
+            <tbody>
+                <tr *ngFor = 'let registro of arrayRegistros' #rTr>
+                    <td class="col-md-1" style="text-align: center">{{registro.ID}}</td>
+                    <td class="col-md-2" style="text-align: center"><div *ngIf="registro.USRLEGACY !== '' || registro.USRLEGACY !== undefined">Cargado OK</div></td>
+                    <td class="col-md-2" style="text-align: center"><div *ngIf="registro.PASSLEGACY !== '' || registro.PASSLEGACY !== undefined"></div>Cargado OK</td>
+                    <td class="col-md-2" style="text-align: center">{{registro.TERMINAL_ID}}</td>
+                    <td  class="col-md-1" style="text-align: center">{{registro.SUCURSAL_ID}}</td>
+                    <td class="col-md-2" style="text-align: center">
+                        <div *ngIf="registro.ACTIVO === '1'">ACTIVA</div>
+                        <div *ngIf="registro.ACTIVO === '0'">INACTIVA</div>
+                        <div *ngIf="registro.ACTIVO === '' || registro.ACTIVO === undefined">NA</div>
+                    </td>
+                    <td class="col-md-2" align="center" (click)="getValuesTr(rTr)"    >
+                    <img  class="img-edit" src="./assets/img/edit.png" 
+                            alt= "Modificar" />
+                    </td>
+                </tr>
+             </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="modalModificaEstatus" role="dialog">
+            <div class="modal-dialog modal-dialog-aux">
+                <div class="modal-content">
+    
+                    <div class="modal-body">
+                        <div class="row padding-InFieldset" align="center">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <h4 class="color-letra">Asignación de CR / modificación de estado de terminal</h4>
+                            </div>
+                        </div>
+                        <div class="row padding-InFieldset">
+                            <div class="col-sm-5 col-md-5 col-lg-5" align="right">
+                                   <label class="letranegrita">ID de Terminal</label>
+                            </div>
+                            <div class="col-sm-5 col-md-5 col-lg-5" align="left">
+                                    <label #rIdTeerminal>{{IdTerminalSelect}}</label>
+                            </div>
+                           
+                        </div>
+                        <div class="row padding-InFieldset">
+                                <div class="col-sm-5 col-md-5 col-lg-5" align="right">
+                                       <label class="letranegrita">CR
+                                        </label>
+                                </div>
+                                <div class="col-sm-5 col-md-5 col-lg-5" align="left">
+                                        <input type="text" class="form-control" #rCR formControlName="fcrCR" >
+                                        <div *ngIf="myForm.get('fcrCR').errors && myForm.get('fcrCR').dirty" >
+                                                <p *ngIf="myForm.get('fcrCR').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
+                                          </div>
+                                </div>
+                               
+                            </div>
+                            <div class="row padding-InFieldset">
+                                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" align="right">
+                                            <label class="letranegrita">Estado de terminal </label>
+                                        </div>
+                                        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" align="left">
+                                            <select class="form-control selectModificado"   #rEstatus >
+                                              <option value="2"  disabled selected>NA</option>
+                                              <option value="1" >ACTIVA</option>
+                                              <option value="0" >INACTIVA</option>
+                                            </select>
+                                        </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer modal-footer-aux">
+                        <div class="row">
+                            <div class="col-sm-8 col-md-8 col-lg-8">  </div>
+                            <div class="col-sm-2 col-md-2 col-lg-2" style="padding-left: 6% !important;">  
+                                    <button type="button" class="btn" data-dismiss="modal">CANCELAR</button>
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-lg-2"  style="padding-left: 0px">  
+                                    <button type="button" class="btn  btn-danger" data-dismiss="modal" 
+                                    [disabled]="rCR.value === ''"
+                                     (click)="showConfirmaStatus(rCR.value,rEstatus.value,rIdTeerminal.innerText)" >GUARDAR</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        <div class="modal fade" id="modalConfirma" role="dialog">
+                <div class="modal-dialog modal-dialog-aux">
+                        <div class="modal-content">
+            
+                            <div class="modal-body">
+                                <div class="row padding-InFieldset" align="center">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                            <h4 class="color-letra">Operación exitosa </h4>
+                                    </div>
+                                </div>
+                                <div  class="row ">
+                                        <div class="col-sm-6 col-md-6 col-lg-6" align="right">
+                                            <label class="letranegrita">ID de Terminal</label>
+                                         </div>
+                                         <div class="col-sm-6 col-md-6 col-lg-6" align="left">
+                                                <label>{{IdTerminalSelect}}</label>
+                                             </div>
+                                </div>
+                                <div  class="row ">
+                                        <div class="col-sm-6 col-md-6 col-lg-6" align="right">
+                                            <label class="letranegrita">CR</label>
+                                         </div>
+                                         <div class="col-sm-6 col-md-6 col-lg-6" align="left">
+                                                <label>{{CrModal}}</label>
+                                             </div>
+                                </div>
+                                <div  class="row ">
+                                        <div class="col-sm-6 col-md-6 col-lg-6" align="right">
+                                            <label class="letranegrita">Estado de terminal   </label>
+                                         </div>
+                                         <div class="col-sm-6 col-md-6 col-lg-6" align="left">
+                                                <label>{{EdoTerminalModal}}</label>
+                                             </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer modal-footer-aux">
+                                <div class="row">
+                                    <div class="col-sm-8 col-md-8 col-lg-8">  </div>
+                                    <div class="col-sm-2 col-md-2 col-lg-2" > </div>
+                                    <div class="col-sm-2 col-md-2 col-lg-2"  style="padding-left: 0px">  
+                                            <button type="button" class="btn  btn-danger" data-dismiss="modal"  >ACEPTAR  </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                    </div>
+            </div>
+         
+</form>

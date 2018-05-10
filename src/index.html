@@ -10,5 +10,30 @@
 </head>
 <body>
   <app-root></app-root>
+  <script type="text/javascript" src="assets/node_modules/ibm-mfp-web-sdk/node_modules/sjcl/sjcl.js"></script>
+    <script type="text/javascript" src="assets/node_modules/ibm-mfp-web-sdk/node_modules/jssha/src/sha.js"></script>
+    <script type="text/javascript" src="assets/node_modules/ibm-mfp-web-sdk/node_modules/promiz/promiz.min.js"></script>
+    <script type="text/javascript" src="assets/node_modules/ibm-mfp-web-sdk/lib/analytics/ibmmfpfanalytics.js"></script>
+    <script type="text/javascript" src="assets/node_modules/ibm-mfp-web-sdk/ibmmfpf.js"></script>
+
+    <script type="text/javascript" src="assets/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="assets/b4/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript" src="assets/js/index.js"></script>
+    <script type="text/javascript" src="assets/js/UserLoginChallengeHandler.js"></script>
+    <div class="modal fade" id="errorModal" role="dialog">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-body">
+                  <p style="text-align: center;" id="mnsError" class="letranegrita">El servicio no esta disponible, por favor intentelo mas tarde.</p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">ACEPTAR</button>
+              </div>
+          </div>
+  
+      </div>
+  </div>
 </body>
 </html>

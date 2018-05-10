@@ -1,0 +1,317 @@
+<form  [formGroup]="myForm" novalidate>
+<div>
+    <div class="row seguridad-bar-options" align="center">
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 seguridad-bar-td" id="divParticular" (click)="cagaParticular()">
+            <label>CARGA DE USUARIO LEGACY</label>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 seguridad-bar-td"  id="divMasiva" (click)="cagaMasiva()">
+                <label>CARGA MASIVA DE USUARIOS LEGACY                    </label>
+        </div>
+        <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7"></div>
+    </div>    
+</div>
+    <div class="contenedor-tabla">
+            <table id="tableBeneficiary" class="table table-fixed">
+                    <thead >
+                                <tr >
+                                  <th class="col-md-2 style-th" style="text-align: center">ID BDD</th>
+                                  <th class="col-md-2 style-th" style="text-align: center">Usuario Ofuscado</th>
+                                  <th class="col-md-2 style-th" style="text-align: center">Password Ofuscado</th>
+                                  <th class="col-md-2 style-th" style="text-align: center">ID de Terminal</th>
+                                  <th class="col-md-2 style-th" style="text-align: center"> CR</th>
+                                  <th class="col-md-2 style-th" style="text-align: center">Estado de Terminal</th>
+                                  <th class="col-md-0 style-th" style="text-align: center;display: none">Modificar</th>
+                                </tr>
+                    </thead>
+                <tbody>
+                    <tr *ngFor = 'let registro of arrayRegistros' #rTr>
+                        <td class="col-md-2" style="text-align: center">{{registro.ID}}</td>
+                        <td class="col-md-2" style="text-align: center"><div *ngIf="registro.USRLEGACY !== '' || registro.USRLEGACY !== undefined">Cargado OK</div></td>
+                        <td class="col-md-2" style="text-align: center"><div *ngIf="registro.PASSLEGACY !== '' || registro.PASSLEGACY !== undefined"></div>Cargado OK</td>
+                        <td class="col-md-2" style="text-align: center">{{registro.TERMINAL_ID}}</td>
+                        <td  class="col-md-2" style="text-align: center">{{registro.SUCURSAL_ID}}</td>
+                        <td class="col-md-2" style="text-align: center">
+                            <div *ngIf="registro.ACTIVO === '1'">ACTIVA</div>
+                            <div *ngIf="registro.ACTIVO === '0'">INACTIVA</div>
+                            <div *ngIf="registro.ACTIVO === '' || registro.ACTIVO === undefined">NA</div>
+                        </td>
+                        <td class="col-md-0" align="center" (click)="getValuesTr(rTr)"  style="display: none"  >
+                        <img  class="img-edit" src="./assets/img/edit.png" 
+                                alt= "Modificar" />
+                        </td>
+                    </tr>
+                 </tbody>
+            </table>
+        </div>
+
+    <div class="modal fade" id="modalCargaParticular" role="dialog">
+            <div class="modal-dialog modal-dialog-aux">
+                <div class="modal-content">
+    
+                    <div class="modal-body">
+                        <div class="row padding-InFieldset" align="center">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <h4 class="color-letra">Alta de usuario Legacy</h4>
+                            </div>
+                        </div>
+                        <div class="row padding-InFieldset">
+                            <div class="col-sm-4 col-md-4 col-lg-4" align="right">
+                                   <label class="letranegrita">Usuario Legacy</label>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6" align="left">
+                                    <input type="text" class="form-control" #rUsuarioLegacy formControlName="fcUsrLegacy">
+                                    <div *ngIf="myForm.get('fcUsrLegacy').errors && myForm.get('fcUsrLegacy').dirty" >
+                                            <p *ngIf="myForm.get('fcUsrLegacy').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
+                                      </div>
+                            </div>
+                           
+                        </div>
+                        <div class="row padding-InFieldset">
+                                <div class="col-sm-4 col-md-4 col-lg-4" align="right">
+                                       <label class="letranegrita">Password Legacy
+                                        </label>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-6" align="left">
+                                        <input type="text" class="form-control" #rPassLegacy formControlName="fcPassLegacy">
+                                        <div *ngIf="myForm.get('fcPassLegacy').errors && myForm.get('fcPassLegacy').dirty" >
+                                                <p *ngIf="myForm.get('fcPassLegacy').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
+                                          </div>
+                                </div>
+                               
+                            </div>
+                            <div class="row padding-InFieldset">
+                                    <div class="col-sm-4 col-md-4 col-lg-4" align="right">
+                                           <label class="letranegrita">Confirmaci&oacute;n de password
+                                            </label>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6" align="left">
+                                            <input type="text" class="form-control" formControlName="fcPassLegacyConfirm">
+                                            <div *ngIf="myForm.get('fcPassLegacyConfirm').errors && myForm.get('fcPassLegacyConfirm').dirty" >
+                                                    <p *ngIf="myForm.get('fcPassLegacyConfirm').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
+                                            </div>
+                                            <div *ngIf=" myForm.get('fcPassLegacyConfirm').dirty && (myForm.get('fcPassLegacyConfirm').value !== '') " >
+                                                    <p *ngIf="myForm.get('fcPassLegacyConfirm').value !== myForm.get('fcPassLegacy').value" class="alert alert-danger">Password no coincide.</p>
+                                            </div>
+                                    </div>
+                                   
+                                </div>
+                    </div>
+                    <div class="modal-footer modal-footer-aux">
+                        <div class="row">
+                            <div class="col-sm-8 col-md-8 col-lg-8">  </div>
+                            <div class="col-sm-2 col-md-2 col-lg-2" style="padding-left: 6% !important;">  
+                                    <button type="button" class="btn" data-dismiss="modal">CANCELAR</button>
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-lg-2"  style="padding-left: 0px">  
+                                    <button type="button" class="btn  btn-danger"data-dismiss="modal" 
+                                    [disabled]="((myForm.get('fcPassLegacy').value === '')|| (myForm.get('fcPassLegacyConfirm').value === '')||(myForm.get('fcUsrLegacy').value === '')||(myForm.get('fcPassLegacyConfirm').value !== myForm.get('fcPassLegacy').value))"
+                                     (click)="showConfirmacionCPart(rUsuarioLegacy.value, rPassLegacy.value)" >GUARDAR</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        <div class="modal fade" id="modalCargaMasiva" role="dialog">
+                <div class="modal-dialog modal-dialog-aux">
+                        <div class="modal-content">
+            
+                            <div class="modal-body">
+                                <div class="row padding-InFieldset" align="center">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                            <h4 class="color-letra">Carga masiva de usuarios Legacy
+                                                </h4>
+                                    </div>
+                                </div>
+                                <div class="row padding-InFieldset">
+                                    <div class="col-sm-12 col-md-12 col-lg-12" >
+                                           <P >Da clic en Examinar y, a continuación, selecciona el archivo. Una vez seleccionado el archivo, da clic en CONTINUAR.
+                                           </P>
+                                    </div>
+                                   
+                                </div>
+                                <div class="row uploader padding-InFieldset">
+                                    <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-sm-7 col-md-7 col-lg-7 form-control" style="
+                                    padding-bottom: 0px !important;">
+                                      <div id="inputval" class="input-value " ></div>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2 col-lg-2" style="background-color: orangered; padding-top: 4px;" align="center">
+                                      <label for="txtFileUpload">Examinar</label>
+                                      <input  class="upload" type="file" accept=".csv" id="txtFileUpload" name="File Upload" #fileImportInput (change)="fileChangeListener($event,fileImportInput.value )">
+                                    </div>
+                                    <div class="col-sm-3 col-md-3 col-lg-3"></div>
+                                </div>  
+                            </div>
+                            <br><br>
+                            <div class="modal-footer modal-footer-aux">
+                                <div class="row">
+                                    <div class="col-sm-8 col-md-8 col-lg-8">  </div>
+                                    <div class="col-sm-2 col-md-2 col-lg-2" style="padding-left: 4% !important;">  
+                                            <button type="button" class="btn" data-dismiss="modal">CANCELAR</button>
+                                    </div>
+                                    <div class="col-sm-2 col-md-2 col-lg-2"  style="padding-left: 0px">  
+                                            <button type="button" class="btn  btn-danger" data-dismiss="modal" [disabled]="fileImportInput.value === ''" (click)="showConfirmacion()" >CONTINUAR
+                                                </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                    </div>
+                </div>
+                <div class="modal fade" id="modalConfirmaCMasiva" role="dialog">
+                        <div class="modal-dialog modal-dialog-aux">
+                                <div class="modal-content">
+                    
+                                    <div class="modal-body">
+                                        <div class="row padding-InFieldset" align="center">
+                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                    <h4 class="color-letra">Confirma la operación                                                        </h4>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-12" >
+                                                   <P >La escritura en Base de Datos se ejecutará hasta que des clic en el botón CONFIRMAR. Por favor verifica el nombre del archivo.
+                                                   </P>
+                                            </div>
+                                        </div>
+                                        <div  class="row ">
+                                                <div class="col-sm-12 col-md-12 col-lg-12" >
+                                                        <p >Archivo fuente para carga masiva de usuarios Legacy:</p>
+                                                 </div>
+                                        </div>
+                                        <div  class="row padding-InFieldset">
+                                                <div class="col-sm-10 col-md-10 col-lg-10"  >
+                                                        <label class="form-control" id="nameFile" readonly></label>
+                                                 </div>
+                                                 <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer modal-footer-aux">
+                                        <div class="row">
+                                            <div class="col-sm-8 col-md-8 col-lg-8">  </div>
+                                            <div class="col-sm-2 col-md-2 col-lg-2" style="padding-left: 4% !important;">  
+                                                    <button type="button" class="btn" data-dismiss="modal">CANCELAR</button>
+                                            </div>
+                                            <div class="col-sm-2 col-md-2 col-lg-2"  style="padding-left: 0px">  
+                                                    <button type="button" class="btn  btn-danger " data-dismiss="modal" (click)="doCargaMasiva()">CONFIRMAR
+                                                        </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                            </div>
+                    </div>
+                        <div class="modal fade" id="modalConfirmaCParticular" role="dialog">
+                            <div class="modal-dialog modal-dialog-aux">
+                                    <div class="modal-content">
+                        
+                                        <div class="modal-body">
+                                            <div class="row padding-InFieldset" align="center">
+                                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                                        <h4 class="color-letra">Operación exitosa </h4>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 col-lg-12" align="center">
+                                                       <label class="letranegrita" >Alta de usuario Legacy  </label>
+                                                </div>
+                                            </div>
+                                            <div  class="row ">
+                                                    <div class="col-sm-6 col-md-6 col-lg-6" align="right">
+                                                        <label class="letranegrita">ID BDD</label>
+                                                     </div>
+                                                     <div class="col-sm-6 col-md-6 col-lg-6" align="left">
+                                                            <label>{{IDDataBase}}</label>
+                                                         </div>
+                                            </div>
+                                            <div  class="row ">
+                                                    <div class="col-sm-6 col-md-6 col-lg-6" align="right">
+                                                        <label class="letranegrita">Usuario Legacy</label>
+                                                     </div>
+                                                     <div class="col-sm-6 col-md-6 col-lg-6" align="left">
+                                                            <label>{{usrLegacy}}</label>
+                                                         </div>
+                                            </div>
+                                            <div  class="row ">
+                                                    <div class="col-sm-6 col-md-6 col-lg-6" align="right">
+                                                        <label class="letranegrita">Password Legacy</label>
+                                                     </div>
+                                                     <div class="col-sm-6 col-md-6 col-lg-6" align="left">
+                                                            <label>{{passLegacy}}</label>
+                                                         </div>
+                                            </div>
+                                            <div  class="row ">
+                                                    <div class="col-sm-6 col-md-6 col-lg-6" align="right">
+                                                        <label class="letranegrita">ID Terminal</label>
+                                                     </div>
+                                                     <div class="col-sm-6 col-md-6 col-lg-6" align="left">
+                                                            <label>{{Terminal_Id}}</label>
+                                                         </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer modal-footer-aux">
+                                            <div class="row">
+                                                <div class="col-sm-8 col-md-8 col-lg-8">  </div>
+                                                <div class="col-sm-2 col-md-2 col-lg-2" > </div>
+                                                <div class="col-sm-2 col-md-2 col-lg-2"  style="padding-left: 0px">  
+                                                        <button type="button" class="btn  btn-danger" data-dismiss="modal" >ACEPTAR  </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                </div>
+                        </div>
+                        <div class="modal fade" id="modalFinCMasiva" role="dialog">
+                            <div class="modal-dialog modal-dialog-aux">
+                                    <div class="modal-content">
+                        
+                                        <div class="modal-body">
+                                            <div class="row padding-InFieldset" align="center">
+                                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                                        <h4 class="color-letra">Operación exitosa </h4>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 col-lg-12" align="center">
+                                                       <label class="letranegrita" >Carga masiva de usuarios Legacy     </label>
+                                                </div>
+                                            </div>
+                                            <div  class="row ">
+                                                    <div class="col-sm-6 col-md-6 col-lg-6" align="right">
+                                                        <label class="letranegrita">Archivo fuente        </label>
+                                                     </div>
+                                                     <div class="col-sm-6 col-md-6 col-lg-6" align="left">
+                                                            <label>{{NameArchivo}}</label>
+                                                         </div>
+                                            </div>
+                                            <div  class="row ">
+                                                    <div class="col-sm-6 col-md-6 col-lg-6" align="right">
+                                                        <label class="letranegrita">Registros insertados      </label>
+                                                     </div>
+                                                     <div class="col-sm-6 col-md-6 col-lg-6" align="left">
+                                                            <label>{{NumRegistros}}</label>
+                                                         </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer modal-footer-aux">
+                                            <div class="row">
+                                                <div class="col-sm-8 col-md-8 col-lg-8">  </div>
+                                                <div class="col-sm-2 col-md-2 col-lg-2" > </div>
+                                                <div class="col-sm-2 col-md-2 col-lg-2"  style="padding-left: 0px">  
+                                                        <button type="button" class="btn  btn-danger" data-dismiss="modal" (click)="validaCarga()">ACEPTAR  </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                </div>
+                        </div>
+                      
+    
+    </form>
