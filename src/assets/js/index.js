@@ -1,3 +1,4 @@
+//https://github.com/RicardoFloresMtz/AdminTerminales.git
 var ROOT;
 var USR;
 var KEY;
