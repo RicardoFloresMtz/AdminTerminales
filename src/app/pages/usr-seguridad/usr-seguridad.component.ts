@@ -33,9 +33,9 @@ export class UsrSeguridadComponent implements OnInit {
   constructor(private service: SessionAppService, private fb: FormBuilder, private router: Router,
     private _fileUtil: FileUtil) {
       this.myForm = this.fb.group({
-        fcUsrLegacy: ['', [Validators.required]],
-        fcPassLegacy: ['', [Validators.required]],
-        fcPassLegacyConfirm: ['', [Validators.required]],
+        fcUsrLegacy: ['', [Validators.required,  Validators.minLength(32) ]],
+        fcPassLegacy: ['', [Validators.required, Validators.minLength(16)]],
+        fcPassLegacyConfirm: ['', [Validators.required, Validators.minLength(16)]],
       });
     }
 
@@ -239,9 +239,12 @@ export class UsrSeguridadComponent implements OnInit {
     const this_aux = this;
     const operaciones = new DataBD_Operaciones();
     csvRecords.forEach(element1 => {
-        const json = '{ "Identificador":"' + element1[0] + '", "User":"' + element1[1] + '", "Pass":"' + element1[2] + '" }';
-        arraycsvRecords.push(json);
+        if ( element1[1].length === 32 && element1[2].length === 16) {
+          const json = '{ "Identificador":"' + element1[0] + '", "User":"' + element1[1] + '", "Pass":"' + element1[2] + '" }';
+          arraycsvRecords.push(json);
+        }
       });
+     this_aux.NumRegistros = arraycsvRecords.length;
      const arraycsvRecordS = '{"Array":[' + arraycsvRecords + ']}';
      console.log(arraycsvRecordS);
      const jsonArray = JSON.parse(arraycsvRecordS);

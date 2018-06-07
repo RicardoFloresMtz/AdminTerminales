@@ -60,9 +60,10 @@
                                    <label class="letranegrita">Usuario Legacy</label>
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6" align="left">
-                                    <input type="text" class="form-control" #rUsuarioLegacy formControlName="fcUsrLegacy">
+                                    <input type="text" class="form-control" #rUsuarioLegacy formControlName="fcUsrLegacy" maxlength="32">
                                     <div *ngIf="myForm.get('fcUsrLegacy').errors && myForm.get('fcUsrLegacy').dirty" >
                                             <p *ngIf="myForm.get('fcUsrLegacy').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
+                                            <p *ngIf="myForm.get('fcUsrLegacy').hasError('minlength')" class="alert alert-danger">Dato incorrecto, favor de verificar.</p>
                                       </div>
                             </div>
                            
@@ -73,9 +74,10 @@
                                         </label>
                                 </div>
                                 <div class="col-sm-6 col-md-6 col-lg-6" align="left">
-                                        <input type="text" class="form-control" #rPassLegacy formControlName="fcPassLegacy">
+                                        <input type="text" class="form-control" #rPassLegacy formControlName="fcPassLegacy" maxlength="16">
                                         <div *ngIf="myForm.get('fcPassLegacy').errors && myForm.get('fcPassLegacy').dirty" >
                                                 <p *ngIf="myForm.get('fcPassLegacy').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
+                                                <p *ngIf="myForm.get('fcPassLegacy').hasError('minlength')" class="alert alert-danger">Dato incorrecto, favor de verificar.</p>
                                           </div>
                                 </div>
                                
@@ -86,7 +88,7 @@
                                             </label>
                                     </div>
                                     <div class="col-sm-6 col-md-6 col-lg-6" align="left">
-                                            <input type="text" class="form-control" formControlName="fcPassLegacyConfirm">
+                                            <input type="text" class="form-control" formControlName="fcPassLegacyConfirm" maxlength="16">
                                             <div *ngIf="myForm.get('fcPassLegacyConfirm').errors && myForm.get('fcPassLegacyConfirm').dirty" >
                                                     <p *ngIf="myForm.get('fcPassLegacyConfirm').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
                                             </div>

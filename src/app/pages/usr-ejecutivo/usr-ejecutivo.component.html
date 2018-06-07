@@ -60,6 +60,7 @@
                                         <input type="text" class="form-control" #rCR formControlName="fcrCR" >
                                         <div *ngIf="myForm.get('fcrCR').errors && myForm.get('fcrCR').dirty" >
                                                 <p *ngIf="myForm.get('fcrCR').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
+                                                <p *ngIf="myForm.get('fcrCR').hasError('pattern')" class="alert alert-danger">Dato incorrecto, favor de verificar.</p>
                                           </div>
                                 </div>
                                

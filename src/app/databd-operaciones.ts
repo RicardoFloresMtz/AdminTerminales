@@ -15,11 +15,62 @@ export class DataBD_Operaciones {
             'adapters/AdapterBanorteAdminTerminales/resource/getAcceso',
             WLResourceRequest.POST);
         resourceRequest.setTimeout(30000);
-        resourceRequest
-            .sendFormParameters(formParameters);
 
             return resourceRequest.sendFormParameters(formParameters);
 
+    }
+
+    consultaDatosEmpleado(idEmpleado) {
+
+        const formParameters = {
+            idEmpleado: idEmpleado
+        };
+
+        const resourceRequest = new WLResourceRequest(
+            'adapters/AdapterBanorteAdminTerminales/resource/consulEmpleado',
+            WLResourceRequest.POST);
+        resourceRequest.setTimeout(30000);
+
+            return resourceRequest.sendFormParameters(formParameters);
+    }
+
+    identificaEmpleado(idEmpleado) {
+
+        const formParameters = {
+            idEmpleado: idEmpleado
+        };
+
+        const resourceRequest = new WLResourceRequest(
+            'adapters/AdapterBanorteAdminTerminales/resource/identificaUsuario',
+            WLResourceRequest.POST);
+        resourceRequest.setTimeout(30000);
+
+        return resourceRequest.sendFormParameters(formParameters);
+    }
+
+    autenticEmpleado(respUsuario) {
+        const formParameters = {
+            respUsuario: respUsuario
+        };
+
+        const resourceRequest = new WLResourceRequest(
+            'adapters/AdapterBanorteAdminTerminales/resource/autenticaUsuario',
+            WLResourceRequest.POST);
+        resourceRequest.setTimeout(30000);
+
+            return resourceRequest.sendFormParameters(formParameters);
+    }
+
+    cerrarSesion() {
+
+        const formParameters = {
+        };
+        const resourceRequest = new WLResourceRequest(
+            'adapters/AdapterBanorteAdminTerminales/resource/cerrarSession',
+            WLResourceRequest.POST);
+        resourceRequest.setTimeout(30000);
+
+            return resourceRequest.sendFormParameters(formParameters);
     }
 
 
@@ -31,8 +82,6 @@ export class DataBD_Operaciones {
             'adapters/AdapterBanorteAdminTerminales/resource/getRegistros',
             WLResourceRequest.POST);
         resourceRequest.setTimeout(30000);
-        resourceRequest
-            .sendFormParameters(formParameters);
 
             return resourceRequest.sendFormParameters(formParameters);
 
@@ -49,8 +98,6 @@ export class DataBD_Operaciones {
             'adapters/AdapterBanorteAdminTerminales/resource/setUpdateCrStatus',
             WLResourceRequest.POST);
         resourceRequest.setTimeout(30000);
-        resourceRequest
-            .sendFormParameters(formParameters);
 
             return resourceRequest.sendFormParameters(formParameters);
     }
@@ -66,7 +113,6 @@ export class DataBD_Operaciones {
             'adapters/AdapterBanorteAdminTerminales/resource/insertaUserPassLegacy',
             WLResourceRequest.POST);
         resourceRequest.setTimeout(30000);
-        resourceRequest.sendFormParameters(formParameters);
 
             return resourceRequest.sendFormParameters(formParameters);
     }
@@ -81,10 +127,8 @@ export class DataBD_Operaciones {
             'adapters/AdapterBanorteAdminTerminales/resource/insertaUserPassLegacyDataMasiva',
             WLResourceRequest.POST);
         resourceRequest.setTimeout(30000);
-        resourceRequest
-            .sendFormParameters(formParameters);
 
-            return resourceRequest.sendFormParameters(formParameters);
+         return resourceRequest.sendFormParameters(formParameters);
     }
 
 }

@@ -22,7 +22,7 @@ export class UsrEjecutivoComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.myForm = this.fb.group({
-      fcrCR: ['', [Validators.required]],
+      fcrCR: ['', [Validators.required,  Validators.pattern(/^[0-9]+(\s*[0-9]*)*[0-9]+$/)]],
     });
    }
 

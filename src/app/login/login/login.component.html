@@ -26,6 +26,7 @@
                   <input type="text" class="form-control" #rNombreUsuario formControlName="fcNombreUsuario">
                   <div *ngIf="myForm.get('fcNombreUsuario').errors && myForm.get('fcNombreUsuario').dirty" >
                         <p *ngIf="myForm.get('fcNombreUsuario').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
+                        <p *ngIf="myForm.get('fcNombreUsuario').hasError('pattern')" class="alert alert-danger">Dato incorrecto, favor de verificar.</p>
                   </div>
                 </div>
           </div>
@@ -37,6 +38,7 @@
                   <input type="password" class="form-control" #rPass formControlName="fcPass">
                   <div *ngIf="myForm.get('fcPass').errors && myForm.get('fcPass').dirty" >
                         <p *ngIf="myForm.get('fcPass').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
+                        <p *ngIf="myForm.get('fcPass').hasError('pattern')" class="alert alert-danger">Dato incorrecto, favor de verificar.</p>
                   </div>
                 </div>
           </div>
