@@ -28,12 +28,13 @@ export class NavbarUsrInfoComponent implements OnInit {
       console.log(response);
       const responseJSON = response.responseJSON;
       if (responseJSON.Id === 'SEG0001') {
+        WLAuthorizationManager.logout('banorteSecurityCheckSa');
           setTimeout(function() {
             $('#modal_please_wait').modal('hide');
             sessionStorage.removeItem('sesion');
             this_aux.router.navigate(['/login']);
             location.reload(true);
-        }, 500);
+        }, 1000);
       } else {
         setTimeout(function() {
           $('#modal_please_wait').modal('hide');

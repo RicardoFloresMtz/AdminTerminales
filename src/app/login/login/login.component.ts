@@ -22,10 +22,11 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.myForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
-      fcNombreUsuario: ['', [Validators.required, Validators.pattern(/^[a0-zA9-Z]+(\s*[a0-zA9-Z]*)*[a0-zA9-Z-\s]+$/)]],
+      fcNombreUsuario: ['', [Validators.required, Validators.pattern(/^[a0-zA9-Z]+(\s*[a0-zA9-Z]*)*[a0-zA9-Z-\s]+$/), Validators.minLength(8)]],
       // tslint:disable-next-line:max-line-length
       fcPass: ['', [Validators.required,  Validators.pattern(/^[a0-zA9-Z]+(\s*[a0-zA9-Z-/\.\-\_\@\$]*)*[a0-zA9-Z-\s]+$/)]]
     });
+
   }
 
   setValuePerfil() {
@@ -35,6 +36,35 @@ export class LoginComponent implements OnInit {
   }
 
   LogIn(usr, key) {
+    const this_aux = this;
+    const securityCheckName = 'banorteSecurityCheckSa';
+    const userLoginChallengeHandler = WL.Client
+        .createSecurityCheckChallengeHandler(securityCheckName);
+    const usr_ca = 'sucursApps';
+    const tarjet = 'adm-sucusWeb';
+    console.log(usr_ca);
+    console.log(tarjet);
+
+        WLAuthorizationManager.login(securityCheckName, {
+            'usr_ca': usr_ca,
+            'tarjet': tarjet
+        }).then(
+            function() {
+               /* const body = $('body');
+                body.on('click', function() {
+
+                    WL.Client.reloadApp();
+                });*/
+                this_aux.logAfterSecurity( usr, key);
+                console.log('login onSuccess');
+                $('#modal_please_wait').modal('hide');
+
+        }, function(error) {
+            console.log(error);
+        });
+  }
+
+  logAfterSecurity( usr, key) {
     $('#modal_please_wait').modal('show');
     const this_aux = this;
     const idEmpleado = usr;
@@ -48,6 +78,7 @@ export class LoginComponent implements OnInit {
          if (resp_json.Id === 'SEG0001') {
             this_aux.consultaEmpleado(idEmpleado, respuestaUsuario);
          } else {
+               WLAuthorizationManager.logout('banorteSecurityCheckSa');
               setTimeout(function() {
                 $('#modal_please_wait').modal('hide');
                 $('#errorModal').modal('show');
@@ -55,7 +86,7 @@ export class LoginComponent implements OnInit {
             }, 500);
         }
       }, function(error) {
-
+             WLAuthorizationManager.logout('banorteSecurityCheckSa');
             setTimeout(function() {
                 $('#modal_please_wait').modal('hide');
                 $('#errorModal').modal('show');
@@ -80,6 +111,7 @@ export class LoginComponent implements OnInit {
           const resp1_json = resp1.responseJSON;
           if (resp1_json.Id === 'SEG0001') {
               if (resp1_json.ArrayGrupos === 'No pertenece a ningun grupo') {
+                WLAuthorizationManager.logout('banorteSecurityCheckSa');
                   setTimeout(function() {
                     $('#modal_please_wait').modal('hide');
                     $('#errorModal').modal('show');
@@ -91,6 +123,7 @@ export class LoginComponent implements OnInit {
                 if ( this_aux.validaGrupoEmpleado(resp1_json)) {
                         this_aux.autenticaUsuario(respuestaUsuario);
                   } else {
+                    WLAuthorizationManager.logout('banorteSecurityCheckSa');
                         setTimeout(function() {
                           $('#modal_please_wait').modal('hide');
                           $('#errorModal').modal('show');
@@ -100,6 +133,7 @@ export class LoginComponent implements OnInit {
                     }
               }
            } else {
+              WLAuthorizationManager.logout('banorteSecurityCheckSa');
               setTimeout(function() {
                 $('#modal_please_wait').modal('hide');
                 $('#errorModal').modal('show');
@@ -107,6 +141,7 @@ export class LoginComponent implements OnInit {
             }, 500);
           }
       }, function(error1) {
+        WLAuthorizationManager.logout('banorteSecurityCheckSa');
         setTimeout(function() {
           $('#modal_please_wait').modal('hide');
           $('#errorModal').modal('show');
@@ -156,6 +191,7 @@ export class LoginComponent implements OnInit {
             this_aux.router.navigate(['/usr_seguridad']);
           }
         } else {
+          WLAuthorizationManager.logout('banorteSecurityCheckSa');
             setTimeout(function() {
               $('#modal_please_wait').modal('hide');
               $('#errorModal').modal('show');
@@ -163,6 +199,7 @@ export class LoginComponent implements OnInit {
             }, 500);
           }
       }, function(error2) {
+        WLAuthorizationManager.logout('banorteSecurityCheckSa');
         setTimeout(function() {
             $('#modal_please_wait').modal('hide');
             $('#errorModal').modal('show');

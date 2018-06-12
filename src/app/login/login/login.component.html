@@ -23,10 +23,11 @@
                 <label>Usuario</label>
               </div>
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" align="left">
-                  <input type="text" class="form-control" #rNombreUsuario formControlName="fcNombreUsuario">
+                  <input type="text" class="form-control" #rNombreUsuario formControlName="fcNombreUsuario" maxlength="10">
                   <div *ngIf="myForm.get('fcNombreUsuario').errors && myForm.get('fcNombreUsuario').dirty" >
                         <p *ngIf="myForm.get('fcNombreUsuario').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
                         <p *ngIf="myForm.get('fcNombreUsuario').hasError('pattern')" class="alert alert-danger">Dato incorrecto, favor de verificar.</p>
+                        <p *ngIf="!myForm.get('fcNombreUsuario').hasError('pattern') && rNombreUsuario.value.length > 1 && myForm.get('fcNombreUsuario').hasError('minlength') " class="alert alert-danger">Dato incorrecto, favor de verificar.</p>
                   </div>
                 </div>
           </div>
