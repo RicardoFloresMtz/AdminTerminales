@@ -182,14 +182,17 @@ export class LoginComponent implements OnInit {
           const resp2_json = resp2.responseJSON;
           console.log(resp2);
           if (resp2_json.Id === 'SEG0001') {
-            sessionStorage.setItem('sesion', 'activa');
+            localStorage.setItem('sesion', 'activa');
+            sessionStorage.setItem('sesionPadre', 'activa');
             this_aux.service.usuarioLogin = resp2_json.NombreUsuario;
-          if (this_aux.isNegocio) {
-            this_aux.router.navigate(['/usr_ejecutivo']);
-          }
-          if (this_aux.isSeguridad) {
-            this_aux.router.navigate(['/usr_seguridad']);
-          }
+              this_aux.comienzaContador();
+
+              if (this_aux.isNegocio) {
+                this_aux.router.navigate(['/usr_ejecutivo']);
+              }
+              if (this_aux.isSeguridad) {
+                this_aux.router.navigate(['/usr_seguridad']);
+              }
         } else {
           WLAuthorizationManager.logout('banorteSecurityCheckSa');
             setTimeout(function() {
@@ -213,4 +216,69 @@ export class LoginComponent implements OnInit {
       }
   );
   }
+
+   comienzaContador() {
+    const this_aux = this;
+    const body = $('body');
+    body.on('click', function() {
+      localStorage.setItem('TimeOut', localStorage.getItem('TimeOutIni'));
+    });
+
+    setInterval(function() {
+     const valueNewTimeOut = +localStorage.getItem('TimeOut') - 1;
+     localStorage.setItem('TimeOut', valueNewTimeOut.toString());
+     console.log(valueNewTimeOut);
+     if (valueNewTimeOut === 0) {
+      this_aux.cerrarSesionTimeOut();
+     }
+    }, 1000);
+  }
+
+  cerrarSesionTimeOut() {
+
+  $('#modal_please_wait').modal('show');
+  const this_aux = this;
+  const operaciones = new DataBD_Operaciones();
+  operaciones.cerrarSesion().then(
+    function(response) {
+      console.log(response);
+      const responseJSON = response.responseJSON;
+      if (responseJSON.Id === 'SEG0001') {
+
+        // TimerSessionTermina
+        localStorage.removeItem('TimeOut');
+        localStorage.removeItem('TimeOutIni');
+        localStorage.removeItem('sesion');
+        sessionStorage.removeItem('sesionPadre');
+        const body = $('body');
+        body.off('click');
+        // TimerSessionTermina
+
+        WLAuthorizationManager.logout('banorteSecurityCheckSa');
+          setTimeout(function() {
+            $('#modal_please_wait').modal('hide');
+            this_aux.router.navigate(['/login']);
+            location.reload(true);
+        }, 1000);
+      } else {
+        setTimeout(function() {
+          $('#modal_please_wait').modal('hide');
+          $('#errorModal').modal('show');
+          document.getElementById('mnsError').innerHTML = responseJSON.MensajeAUsuario;
+      }, 500);
+      }
+    }, function(error) {
+      console.log(error);
+        setTimeout(function() {
+          $('#modal_please_wait').modal('hide');
+          $('#errorModal').modal('show');
+          if (error.errorCode === 'API_INVOCATION_FAILURE') {
+              document.getElementById('mnsError').innerHTML = 'Tu sesión ha expirado';
+          } else {
+            document.getElementById('mnsError').innerHTML = 'El servicio no esta disponible, favor de intentar mas tarde';
+          }
+      }, 500);
+    });
+  }
+
 }

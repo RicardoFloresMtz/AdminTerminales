@@ -28,10 +28,18 @@ export class NavbarUsrInfoComponent implements OnInit {
       console.log(response);
       const responseJSON = response.responseJSON;
       if (responseJSON.Id === 'SEG0001') {
+        // TimerSessionTermina
+        const body = $('body');
+        body.off('click');
         WLAuthorizationManager.logout('banorteSecurityCheckSa');
+        localStorage.removeItem('TimeOutIni');
+        localStorage.removeItem('TimeOut');
+        sessionStorage.removeItem('sesionPadre');
+        sessionStorage.removeItem('sesion');
+        // TimerSessionTermina
+
           setTimeout(function() {
             $('#modal_please_wait').modal('hide');
-            sessionStorage.removeItem('sesion');
             this_aux.router.navigate(['/login']);
             location.reload(true);
         }, 1000);

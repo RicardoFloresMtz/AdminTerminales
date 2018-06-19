@@ -27,8 +27,11 @@ export class UsrEjecutivoComponent implements OnInit {
    }
 
   ngOnInit() {
-    if (sessionStorage.getItem('sesion') === 'activa') {
-      this.getRegistros();
+    const this_aux = this;
+    if (localStorage.getItem('sesion') === 'activa') {
+      setTimeout(function() {
+        this_aux.getRegistros();
+      }, 3000);
     } else {
       $('#errorModal').modal('show');
       document.getElementById('mnsError').innerHTML = 'Tu sesión ha expirado';

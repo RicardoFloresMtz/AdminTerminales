@@ -15,6 +15,18 @@ $( document ).ready(function() {
                  
     }else if(localStorage.getItem("Ambientes") == "" ){
         console.log("no hay mas contextos")
+        $.getJSON('assets/js/cfg.json', function(datos) {
+            AMBIENTES[0] = datos['root'];
+            AMBIENTES[1] = datos['root1'];
+            AMBIENTES[2] = datos['root2'];
+            AMBIENTES[3] = datos['root3'];
+            AMBIENTES[4] = datos['root4'];
+            USR = datos['user'];
+            KEY = datos['key'];
+        
+        });
+       
+        getContextRoot();
     }
     else{
 
@@ -49,10 +61,9 @@ function getContextRoot(){
         };
     
         WL.Client.init(wlInitOptions).then(function() {
-            console.info("VERSION: 1, 19/04/2018")
-            
-               // var userLoginChallengeHandler = UserLoginChallengeHandler(USR, KEY);
-               var formParameters = { };
+            console.info("VERSION: 1.1, 13/06/2018")
+
+                var formParameters = { };
                var resourceRequest = new WLResourceRequest(
                 'adapters/AdapterBanorteAdminTerminales/resource/checkServer',
                 WLResourceRequest.POST);
@@ -60,6 +71,9 @@ function getContextRoot(){
                 resourceRequest.sendFormParameters().then(
                 function(response){
                    console.log(response);
+                   var responseJson= response.responseJSON;
+                   localStorage.setItem("TimeOut", responseJson.TimeOut);
+                   localStorage.setItem("TimeOutIni", responseJson.TimeOut);
                     setTimeout(function(){
                         $('#modal_please_wait').modal('hide');
                     },500);
@@ -70,7 +84,8 @@ function getContextRoot(){
                     WL.Client.reloadApp();
                });
               
-    
+
+            
         }, function(error){
             console.log(error);
         });
@@ -78,3 +93,14 @@ function getContextRoot(){
     
 }   
 
+
+
+function cierre()
+{
+        if(localStorage.getItem('sesion')== "activa" && sessionStorage.getItem("sesionPadre") == "activa"){
+            WLAuthorizationManager.logout('banorteSecurityCheckSa');
+            localStorage.removeItem('sesion');
+            localStorage.removeItem('TimeOut');
+            localStorage.removeItem('TimeOutIni');
+        }
+}
