@@ -227,7 +227,6 @@ export class LoginComponent implements OnInit {
     setInterval(function() {
      const valueNewTimeOut = +localStorage.getItem('TimeOut') - 1;
      localStorage.setItem('TimeOut', valueNewTimeOut.toString());
-     console.log(valueNewTimeOut);
      if (valueNewTimeOut === 0) {
       this_aux.cerrarSesionTimeOut();
      }
