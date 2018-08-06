@@ -5,7 +5,6 @@ var KEY;
 var AMBIENTES = ["","","","",""];
 
 $( document ).ready(function() {
-    $('#modal_please_wait').modal('show');  
     if(localStorage.getItem("Ambientes") ){
              AMBIENTES=localStorage.getItem("Ambientes").split(",");
             console.log(localStorage.getItem("Ambientes")) 
@@ -61,7 +60,7 @@ function getContextRoot(){
         };
     
         WL.Client.init(wlInitOptions).then(function() {
-            console.info("VERSION: 1.5, 17/07/2018 ")
+            console.info("VERSION: 1.7, 30/07/2018 ")
 
                 var formParameters = { };
                var resourceRequest = new WLResourceRequest(
@@ -74,9 +73,9 @@ function getContextRoot(){
                    var responseJson= response.responseJSON;
                    localStorage.setItem("TimeOut", responseJson.TimeOut);
                    localStorage.setItem("TimeOutIni", responseJson.TimeOut);
-                    setTimeout(function(){
+                   
                         $('#modal_please_wait').modal('hide');
-                    },500);
+                   
                }, function(error){
                     console.log(error);
                     AMBIENTES.shift();

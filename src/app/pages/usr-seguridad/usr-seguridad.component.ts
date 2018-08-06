@@ -248,6 +248,7 @@ export class UsrSeguridadComponent implements OnInit {
         }
       });
      this_aux.NumRegistros = arraycsvRecords.length;
+     console.log(this_aux.NumRegistros);
      const arraycsvRecordS = '{"Array":[' + arraycsvRecords + ']}';
      console.log(arraycsvRecordS);
      const jsonArray = JSON.parse(arraycsvRecordS);

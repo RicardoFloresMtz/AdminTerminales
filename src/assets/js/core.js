@@ -721,7 +721,7 @@
 /***/ function(module, exports) {
 
 	var id = 0
-	  , px = Math.random();
+	  , px = window.crypto.getRandomValues(new Uint32Array(1));
 	module.exports = function(key){
 	  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 	};
@@ -6515,7 +6515,7 @@
 
 	// Forced replacement prototype accessors methods
 	module.exports = __webpack_require__(26)|| !__webpack_require__(5)(function(){
-	  var K = Math.random();
+	  var K = window.crypto.getRandomValues(new Uint32Array(1));
 	  // In FF throws only define methods
 	  __defineSetter__.call(null, K, function(){ /* empty */});
 	  delete __webpack_require__(2)[K];

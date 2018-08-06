@@ -22,9 +22,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.myForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
-      fcNombreUsuario: ['', [Validators.required, Validators.pattern(/^[a0-zA9-Z]+(\s*[a0-zA9-Z]*)*[a0-zA9-Z-\s]+$/), Validators.minLength(8)]],
+      // fcNombreUsuario: ['', [Validators.required, Validators.pattern(/^([a0-zA9-Z]{8})$/)]],
+      fcNombreUsuario: ['', [Validators.required, Validators.pattern(/^([ahAH])+((([a0-zA9-Z]{4})+([0-9]{3}))|([0-9]{7}))$/)]],
       // tslint:disable-next-line:max-line-length
-      fcPass: ['', [Validators.required,  Validators.pattern(/^[a0-zA9-Z]+(\s*[a0-zA9-Z-/\.\-\_\@\$]*)*[a0-zA9-Z-\s]+$/)]]
+      fcPass: ['', [Validators.required, /* Validators.pattern(/^(\.){8,12}$/)*/Validators.minLength(8), Validators.maxLength(12)]]
     });
 
   }
@@ -82,7 +83,11 @@ export class LoginComponent implements OnInit {
               setTimeout(function() {
                 $('#modal_please_wait').modal('hide');
                 $('#errorModal').modal('show');
-                document.getElementById('mnsError').innerHTML = resp_json.MensajeAUsuario;
+                if (resp_json.Id === '2') {
+                  document.getElementById('mnsError').innerHTML = 'El servicio no esta disponible, favor de intentar mas tarde';
+                } else {
+                  document.getElementById('mnsError').innerHTML = resp_json.MensajeAUsuario;
+                }
             }, 500);
         }
       }, function(error) {

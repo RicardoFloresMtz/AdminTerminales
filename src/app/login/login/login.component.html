@@ -14,7 +14,7 @@
                   <select class="form-control selectModificado"   #rPerfil (change)="setValuePerfil();">
                     <option value="0"  disabled selected>Seleccione un perfil...</option>
                     <option value="1"  >Seguridad</option>
-                    <option value="2"  >Ejecutivo de Cuenta</option>
+                    <option value="2"  >Negocio</option>
                   </select>
                 </div>
           </div>
@@ -23,11 +23,11 @@
                 <label>Usuario</label>
               </div>
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" align="left">
-                  <input type="text" class="form-control" #rNombreUsuario formControlName="fcNombreUsuario" maxlength="10">
+                  <input type="text" class="form-control" #rNombreUsuario formControlName="fcNombreUsuario" maxlength="8">
                   <div *ngIf="myForm.get('fcNombreUsuario').errors && myForm.get('fcNombreUsuario').dirty" >
                         <p *ngIf="myForm.get('fcNombreUsuario').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
                         <p *ngIf="myForm.get('fcNombreUsuario').hasError('pattern')" class="alert alert-danger">Dato incorrecto, favor de verificar.</p>
-                        <p *ngIf="!myForm.get('fcNombreUsuario').hasError('pattern') && rNombreUsuario.value.length > 1 && myForm.get('fcNombreUsuario').hasError('minlength') " class="alert alert-danger">Dato incorrecto, favor de verificar.</p>
+                       <!-- <p *ngIf="!myForm.get('fcNombreUsuario').hasError('pattern') && rNombreUsuario.value.length > 1 && myForm.get('fcNombreUsuario').hasError('minlength') " class="alert alert-danger">Dato incorrecto, favor de verificar.</p>-->
                   </div>
                 </div>
           </div>
@@ -36,10 +36,12 @@
                 <label>Password</label>
               </div>
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" align="left">
-                  <input type="password" class="form-control" #rPass formControlName="fcPass">
+                  <input type="password" class="form-control" #rPass formControlName="fcPass" maxlength="12">
                   <div *ngIf="myForm.get('fcPass').errors && myForm.get('fcPass').dirty" >
                         <p *ngIf="myForm.get('fcPass').hasError('required')" class="alert alert-danger">Dato obligatorio, favor de capturar.</p>
-                        <p *ngIf="myForm.get('fcPass').hasError('pattern')" class="alert alert-danger">Dato incorrecto, favor de verificar.</p>
+                        <p *ngIf="myForm.get('fcPass').hasError('minlength')" class="alert alert-danger">Dato incorrecto, favor de verificar.</p>
+                        <p *ngIf="myForm.get('fcPass').hasError('maxlength')" class="alert alert-danger">Dato incorrecto, favor de verificar.</p>
+                        
                   </div>
                 </div>
           </div>
