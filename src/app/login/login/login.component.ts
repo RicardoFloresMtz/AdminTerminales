@@ -190,7 +190,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('sesion', 'activa');
             sessionStorage.setItem('sesionPadre', 'activa');
             this_aux.service.usuarioLogin = resp2_json.NombreUsuario;
-              this_aux.comienzaContador();
+            //  this_aux.comienzaContador();
 
               if (this_aux.isNegocio) {
                 this_aux.router.navigate(['/usr_ejecutivo']);
