@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   setValuePerfil() {
     const this_aux = this;
     this_aux.Perfil = this_aux.rPerfil.nativeElement.value;
-    console.log(this_aux.rPerfil.nativeElement.value);
+    // console.log(this_aux.rPerfil.nativeElement.value);
   }
 
   LogIn(usr, key) {
@@ -43,8 +43,8 @@ export class LoginComponent implements OnInit {
         .createSecurityCheckChallengeHandler(securityCheckName);
     const usr_ca = 'sucursApps';
     const tarjet = 'adm-sucusWeb';
-    console.log(usr_ca);
-    console.log(tarjet);
+    // console.log(usr_ca);
+    // console.log(tarjet);
 
         WLAuthorizationManager.login(securityCheckName, {
             'usr_ca': usr_ca,
@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
 
     operaciones.identificaEmpleado( idEmpleado).then(
       function(resp) {
-        console.log(resp);
+        // console.log(resp);
          const resp_json = resp.responseJSON;
          if (resp_json.Id === 'SEG0001') {
             this_aux.consultaEmpleado(idEmpleado, respuestaUsuario);
@@ -112,7 +112,7 @@ export class LoginComponent implements OnInit {
     const operaciones = new DataBD_Operaciones();
     operaciones.consultaDatosEmpleado(idEmpleado).then(
       function(resp1) {
-        console.log(resp1);
+        // console.log(resp1);
           const resp1_json = resp1.responseJSON;
           if (resp1_json.Id === 'SEG0001') {
               if (resp1_json.ArrayGrupos === 'No pertenece a ningun grupo') {
@@ -185,7 +185,7 @@ export class LoginComponent implements OnInit {
     operaciones.autenticEmpleado(respuestaUsuario).then(
       function(resp2) {
           const resp2_json = resp2.responseJSON;
-          console.log(resp2);
+          // console.log(resp2);
           if (resp2_json.Id === 'SEG0001') {
             localStorage.setItem('sesion', 'activa');
             sessionStorage.setItem('sesionPadre', 'activa');
@@ -245,7 +245,7 @@ export class LoginComponent implements OnInit {
   const operaciones = new DataBD_Operaciones();
   operaciones.cerrarSesion().then(
     function(response) {
-      console.log(response);
+      // console.log(response);
       const responseJSON = response.responseJSON;
       if (responseJSON.Id === 'SEG0001') {
 
@@ -272,7 +272,7 @@ export class LoginComponent implements OnInit {
       }, 500);
       }
     }, function(error) {
-      console.log(error);
+      // console.log(error);
         setTimeout(function() {
           $('#modal_please_wait').modal('hide');
           $('#errorModal').modal('show');

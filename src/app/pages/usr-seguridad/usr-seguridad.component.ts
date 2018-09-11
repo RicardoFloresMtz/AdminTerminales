@@ -59,7 +59,7 @@ export class UsrSeguridadComponent implements OnInit {
     operaciones.getRegistros().then(
       function (res) {
         console.log('Regreso respuesta');
-        console.log(res);
+        // console.log(res);
         const res_json = res.responseJSON;
         if (res_json.Id === '1') {
           setTimeout(function() {
@@ -127,7 +127,7 @@ export class UsrSeguridadComponent implements OnInit {
 
       this_aux.csvRecords = this._fileUtil.getDataRecordsArrayFromCSVFile(csvRecordsArray,
           headerLength, Constants.validateHeaderAndRecordLengthFlag, Constants.tokenDelimeter);
-        console.log(this_aux.csvRecords);
+        // console.log(this_aux.csvRecords);
       if (this_aux.csvRecords == null) {
         this_aux.fileReset();
       }
@@ -171,7 +171,7 @@ export class UsrSeguridadComponent implements OnInit {
     operaciones.insertaUserPassLegacy(usr, pass, idTerminal).then(
       function (res) {
         console.log('Regreso respuesta');
-        console.log(res);
+        // console.log(res);
         const res_json = res.responseJSON;
             if (res_json.Id === '1') {
                 setTimeout(function() {
@@ -224,7 +224,7 @@ export class UsrSeguridadComponent implements OnInit {
                 this_aux.NumRegistros = this_aux.NumRegistros - 1;
               }
 
-              console.log(this_aux.csvRecords);
+              // console.log(this_aux.csvRecords);
             if ( this_aux.NumRegistros <= 200 ) {
               this_aux.iniCargaMasivaMasiva(idTerminal, this_aux.csvRecords);
             } else {
@@ -248,15 +248,15 @@ export class UsrSeguridadComponent implements OnInit {
         }
       });
      this_aux.NumRegistros = arraycsvRecords.length;
-     console.log(this_aux.NumRegistros);
+     // console.log(this_aux.NumRegistros);
      const arraycsvRecordS = '{"Array":[' + arraycsvRecords + ']}';
-     console.log(arraycsvRecordS);
+     // console.log(arraycsvRecordS);
      const jsonArray = JSON.parse(arraycsvRecordS);
      const stringArray = JSON.stringify(jsonArray);
      operaciones.insertaUserPassLegacyMasiva(idTerminal, stringArray).then(
      function (res) {
         console.log('Regreso respuesta');
-        console.log(res);
+        // console.log(res);
         const res_json = res.responseJSON;
         if (res_json.Id === '1') {
             setTimeout(function() {
@@ -294,7 +294,7 @@ export class UsrSeguridadComponent implements OnInit {
     operaciones.getRegistros().then(
       function (res) {
         console.log('Regreso respuesta');
-        console.log(res);
+        // console.log(res);
         const res_json = res.responseJSON;
         if (res_json.Id === '1') {
           setTimeout(function() {

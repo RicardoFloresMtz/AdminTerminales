@@ -46,7 +46,7 @@ export class UsrEjecutivoComponent implements OnInit {
     operaciones.getRegistros().then(
       function (res) {
         console.log('Regreso respuesta');
-        console.log(res);
+        // console.log(res);
         const res_json = res.responseJSON;
         if (res_json.Id === '1') {
           setTimeout(function() {
@@ -75,7 +75,7 @@ export class UsrEjecutivoComponent implements OnInit {
 
   getValuesTr(elementHTML) {
     const this_aux = this;
-    console.log(elementHTML.cells );
+    // console.log(elementHTML.cells );
     const tds = elementHTML.cells;
     this_aux.IdTerminalSelect  = tds[3].innerText;
     this_aux.rCR.nativeElement.value = tds[4].innerText;
@@ -115,7 +115,7 @@ export class UsrEjecutivoComponent implements OnInit {
     const operaciones = new DataBD_Operaciones();
     operaciones.setUpdateCrStatus(idTerminalvalue, sucursal_id, activo).then(
       function(response) {
-        console.log(response);
+        // console.log(response);
         const jsonResp = response.responseJSON;
         if (jsonResp.Id === '1') {
           setTimeout(function() {

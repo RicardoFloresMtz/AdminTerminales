@@ -1,18 +1,17 @@
-
 //https://github.com/RicardoFloresMtz/AdminTerminales.git
 var USR;
 var KEY;
-var AMBIENTES = ["","","","",""];
+var AMBIENTES = ["", "", "", "", ""];
 
-$( document ).ready(function() {
-    if(localStorage.getItem("Ambientes") ){
-             AMBIENTES=localStorage.getItem("Ambientes").split(",");
-            console.log(localStorage.getItem("Ambientes")) 
-           
-            
-                getContextRoot();
-                 
-    }else if(localStorage.getItem("Ambientes") == "" ){
+$(document).ready(function() {
+    if (localStorage.getItem("Ambientes")) {
+        AMBIENTES = localStorage.getItem("Ambientes").split(",");
+        console.log(localStorage.getItem("Ambientes"))
+
+
+        getContextRoot();
+
+    } else if (localStorage.getItem("Ambientes") == "") {
         console.log("no hay mas contextos")
         $.getJSON('assets/js/cfg.json', function(datos) {
             AMBIENTES[0] = datos['root'];
@@ -22,14 +21,13 @@ $( document ).ready(function() {
             AMBIENTES[4] = datos['root4'];
             USR = datos['user'];
             KEY = datos['key'];
-        
-        });
-       
-        getContextRoot();
-    }
-    else{
 
-        
+        });
+
+        getContextRoot();
+    } else {
+
+
         $.getJSON('assets/js/cfg.json', function(datos) {
             AMBIENTES[0] = datos['root'];
             AMBIENTES[1] = datos['root1'];
@@ -38,68 +36,68 @@ $( document ).ready(function() {
             AMBIENTES[4] = datos['root4'];
             USR = datos['user'];
             KEY = datos['key'];
-        
+
         });
-       
+
         getContextRoot();
     }
-    
-    
+
+
 });
 
 
-function getContextRoot(){
+function getContextRoot() {
 
     setTimeout(function() {
-       
+
         console.log(AMBIENTES[0]);
-    
+
         var wlInitOptions = {
             mfpContextRoot: AMBIENTES[0],
             applicationId: 'com.banorte.adminterminalesweb',
         };
-    
+
         WL.Client.init(wlInitOptions).then(function() {
             console.info("VERSION: 1.8, 29/08/2018 Productiva ")
 
-                var formParameters = { };
-               var resourceRequest = new WLResourceRequest(
+            var formParameters = {};
+            var resourceRequest = new WLResourceRequest(
                 'adapters/AdapterBanorteAdminTerminales/resource/checkServer',
                 WLResourceRequest.POST);
-                resourceRequest.setTimeout(10000);
-                resourceRequest.sendFormParameters().then(
-                function(response){
-                   console.log(response);
-                   var responseJson= response.responseJSON;
-                   localStorage.setItem("TimeOut", responseJson.TimeOut);
-                   localStorage.setItem("TimeOutIni", responseJson.TimeOut);
-                   
-                        $('#modal_please_wait').modal('hide');
-                   
-               }, function(error){
-                    console.log(error);
-                    AMBIENTES.shift();
-                    localStorage.setItem("Ambientes",AMBIENTES);
-                    WL.Client.reloadApp();
-               });
-              
+            resourceRequest.setTimeout(10000);
+            resourceRequest.sendFormParameters().then(
+                function(response) {
+                    // console.log(response);
+                    var responseJson = response.responseJSON;
+                    localStorage.setItem("TimeOut", responseJson.TimeOut);
+                    localStorage.setItem("TimeOutIni", responseJson.TimeOut);
 
-            
-        }, function(error){
+                    $('#modal_please_wait').modal('hide');
+
+                },
+                function(error) {
+                    // console.log(error);
+                    AMBIENTES.shift();
+                    localStorage.setItem("Ambientes", AMBIENTES);
+                    WL.Client.reloadApp();
+                });
+
+
+
+        }, function(error) {
             console.log(error);
         });
     }, 1000)
-    
-}   
+
+}
 
 
 
-function cierre()
-{
-        if(localStorage.getItem('sesion')== "activa" && sessionStorage.getItem("sesionPadre") == "activa"){
-            WLAuthorizationManager.logout('banorteSecurityCheckSa');
-            localStorage.removeItem('sesion');
-            localStorage.removeItem('TimeOut');
-            localStorage.removeItem('TimeOutIni');
-        }
+function cierre() {
+    if (localStorage.getItem('sesion') == "activa" && sessionStorage.getItem("sesionPadre") == "activa") {
+        WLAuthorizationManager.logout('banorteSecurityCheckSa');
+        localStorage.removeItem('sesion');
+        localStorage.removeItem('TimeOut');
+        localStorage.removeItem('TimeOutIni');
+    }
 }

@@ -25,7 +25,7 @@ export class NavbarUsrInfoComponent implements OnInit {
   const operaciones = new DataBD_Operaciones();
   operaciones.cerrarSesion().then(
     function(response) {
-      console.log(response);
+      // console.log(response);
       const responseJSON = response.responseJSON;
       if (responseJSON.Id === 'SEG0001') {
         // TimerSessionTermina
@@ -51,7 +51,7 @@ export class NavbarUsrInfoComponent implements OnInit {
       }, 500);
       }
     }, function(error) {
-      console.log(error);
+      // console.log(error);
         setTimeout(function() {
           $('#modal_please_wait').modal('hide');
           $('#errorModal').modal('show');
