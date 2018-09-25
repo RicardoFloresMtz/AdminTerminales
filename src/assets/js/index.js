@@ -58,7 +58,7 @@ function getContextRoot() {
         };
 
         WL.Client.init(wlInitOptions).then(function() {
-            console.info("VERSION: 1.8, 29/08/2018 Productiva ")
+            console.info("VERSION: 3.0, 24/09/2018 ")
 
             var formParameters = {};
             var resourceRequest = new WLResourceRequest(
@@ -66,12 +66,10 @@ function getContextRoot() {
                 WLResourceRequest.POST);
             resourceRequest.setTimeout(10000);
             resourceRequest.sendFormParameters().then(
-                function(response) {
-                    // console.log(response);
+                function(response){
                     var responseJson = response.responseJSON;
-                    localStorage.setItem("TimeOut", responseJson.TimeOut);
-                    localStorage.setItem("TimeOutIni", responseJson.TimeOut);
-
+                   // console.log(responseJson.MensajeAUsuario);
+                    localStorage.setItem("TimeOut", "3600");
                     $('#modal_please_wait').modal('hide');
 
                 },

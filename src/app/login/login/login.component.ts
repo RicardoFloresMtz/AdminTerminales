@@ -190,7 +190,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('sesion', 'activa');
             sessionStorage.setItem('sesionPadre', 'activa');
             this_aux.service.usuarioLogin = resp2_json.NombreUsuario;
-            //  this_aux.comienzaContador();
+              this_aux.comienzaContador();
 
               if (this_aux.isNegocio) {
                 this_aux.router.navigate(['/usr_ejecutivo']);
@@ -224,15 +224,16 @@ export class LoginComponent implements OnInit {
 
    comienzaContador() {
     const this_aux = this;
-    const body = $('body');
-    body.on('click', function() {
-      localStorage.setItem('TimeOut', localStorage.getItem('TimeOutIni'));
-    });
 
     setInterval(function() {
      const valueNewTimeOut = +localStorage.getItem('TimeOut') - 1;
      localStorage.setItem('TimeOut', valueNewTimeOut.toString());
+     if (valueNewTimeOut === 60) {
+      $('#errorModal').modal('show');
+      document.getElementById('mnsError').innerHTML = 'Tu sesión terminará en un minuto';
+     }
      if (valueNewTimeOut === 0) {
+      $('#errorModal').modal('hide');
       this_aux.cerrarSesionTimeOut();
      }
     }, 1000);
@@ -251,12 +252,8 @@ export class LoginComponent implements OnInit {
 
         // TimerSessionTermina
         localStorage.removeItem('TimeOut');
-        localStorage.removeItem('TimeOutIni');
         localStorage.removeItem('sesion');
         sessionStorage.removeItem('sesionPadre');
-        const body = $('body');
-        body.off('click');
-        // TimerSessionTermina
 
         WLAuthorizationManager.logout('banorteSecurityCheckSa');
           setTimeout(function() {
@@ -265,22 +262,27 @@ export class LoginComponent implements OnInit {
             location.reload(true);
         }, 1000);
       } else {
+        localStorage.removeItem('TimeOut');
+        localStorage.removeItem('sesion');
+        sessionStorage.removeItem('sesionPadre');
+        WLAuthorizationManager.logout('banorteSecurityCheckSa');
         setTimeout(function() {
           $('#modal_please_wait').modal('hide');
-          $('#errorModal').modal('show');
-          document.getElementById('mnsError').innerHTML = responseJSON.MensajeAUsuario;
+          this_aux.router.navigate(['/login']);
+          location.reload(true);
+
       }, 500);
       }
     }, function(error) {
-      // console.log(error);
+
+      localStorage.removeItem('TimeOut');
+      localStorage.removeItem('sesion');
+      sessionStorage.removeItem('sesionPadre');
+      WLAuthorizationManager.logout('banorteSecurityCheckSa');
         setTimeout(function() {
           $('#modal_please_wait').modal('hide');
-          $('#errorModal').modal('show');
-          if (error.errorCode === 'API_INVOCATION_FAILURE') {
-              document.getElementById('mnsError').innerHTML = 'Tu sesión ha expirado';
-          } else {
-            document.getElementById('mnsError').innerHTML = 'El servicio no esta disponible, favor de intentar mas tarde';
-          }
+          this_aux.router.navigate(['/login']);
+          location.reload(true);
       }, 500);
     });
   }
